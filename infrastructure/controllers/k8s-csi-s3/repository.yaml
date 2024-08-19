@@ -1,0 +1,9 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: k8s-csi-s3
+  namespace: flux-system
+spec:
+  interval: 1h0m0s
+  url: https://yandex-cloud.github.io/k8s-csi-s3/charts
