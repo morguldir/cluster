@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  name: heisenbridge-claim0
+  namespace: matrix
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: ru.yandex.s3.csi
+    volume.kubernetes.io/storage-provisioner: ru.yandex.s3.csi
+spec:
+  storageClassName: "csi-s3"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+status: {}

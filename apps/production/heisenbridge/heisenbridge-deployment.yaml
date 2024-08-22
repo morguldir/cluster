@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heisenbridge
+  namespace: matrix
+  labels:
+    app.kubernetes.io/name: heisenbridge
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: heisenbridge
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: heisenbridge
+    spec:
+      initContainers:
+        - image: hif1/heisenbridge:latest
+          name: registration
+          volumeMounts:
+            - mountPath: /data
+              name: heisenbridge-claim0
+          command:
+          - sh
+          - -c
+          - |
+            if [ ! -f /data/heisenbridge.yaml ]; then
+              python -m heisenbridge -c /data/appservice-registration-heisenbridge.yaml --generate --listen-address heisenbridge.matrix.svc.cluster.local --listen-port 9898
+              echo "media_url: $HEISENBRIDGE_MEDIA_URL" >> /data/appservice-registration-heisenbridge
+            fi
+          env:
+            - name: HEISENBRIDGE_MEDIA_URL
+              value: "https://bridges.sulian.eu"
+      containers:
+        - image: hif1/heisenbridge:latest
+          args:
+          - --config /data/appservice-registration-heisenbridge
+          - --owner @morguldir:sulian.eu
+          - --listen-address heisenbridge.matrix.svc.cluster.local
+          - --media-proxy
+          - --identd
+          - https://matrix.sulian.eu
+          name: heisenbridge
+          ports:
+            - containerPort: 9898
+            - containerPort: 113
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: heisenbridge-claim0
+      restartPolicy: Always
+      volumes:
+        - name: heisenbridge-claim0
+          persistentVolumeClaim:
+            claimName: heisenbridge-claim0
+status: {}
