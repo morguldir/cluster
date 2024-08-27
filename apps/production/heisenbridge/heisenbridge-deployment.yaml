@@ -39,9 +39,8 @@ spec:
           args: [
             "--config", "/data/appservice-registration-heisenbridge.yaml",
             "--owner", "@morguldir:sulian.eu",
-            "--listen-address", "heisenbridge.matrix.svc.cluster.local",
-            "--media-proxy",
-            "--identd",
+            "--listen-address", "0.0.0.0",
+            "--identd", "--identd-port", "113",
             "https://matrix.sulian.eu"
           ]
           name: heisenbridge
