@@ -13,5 +13,7 @@ spec:
       port: 113
       targetPort: 113
       protocol: TCP
+  selector:
+    app.kubernetes.io/name: heisenbridge
 status:
   loadBalancer: {}
