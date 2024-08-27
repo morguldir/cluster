@@ -17,6 +17,8 @@ spec:
       labels:
         app.kubernetes.io/name: heisenbridge
     spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
       initContainers:
         - image: hif1/heisenbridge:latest
           name: registration
@@ -40,13 +42,14 @@ spec:
             "--config", "/data/appservice-registration-heisenbridge.yaml",
             "--owner", "@morguldir:sulian.eu",
             "--listen-address", "0.0.0.0",
-            "--identd", "--identd-port", "113",
+            "--listen-port", "19898",
+            "--identd", "--identd-port", "11331",
             "https://matrix.sulian.eu"
           ]
           name: heisenbridge
           ports:
-            - containerPort: 9898
-            - containerPort: 113
+            - containerPort: 19898
+            - containerPort: 11331
           resources: {}
           volumeMounts:
             - mountPath: /data

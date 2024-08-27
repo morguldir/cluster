@@ -8,10 +8,10 @@ spec:
   ports:
     - name: "9898"
       port: 9898
-      targetPort: 9898
+      targetPort: 19898
     - name: "identd"
       port: 113
-      targetPort: 113
+      targetPort: 11331
       protocol: TCP
   selector:
     app.kubernetes.io/name: heisenbridge
