@@ -33,8 +33,12 @@ spec:
         - name: ircd_listen_matrix_port
           value: "6167"
 
-        command: ["/bin/construct"]
-        args: ["const.sulian.eu"]
+        command: 
+        - sh
+        - -c
+        - |
+          /bin/construct -execute 'room join !control:const.sulian.eu @morgstruct:const.sulian.eu' const.sulian.eu
+
         image: ghcr.io/morguldir/construct:latest
         imagePullPolicy: Always
         livenessProbe:
