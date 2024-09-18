@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location /.well-known/matrix/client {
+        add_header Access-Control-Allow-Origin '*';
+        return 200 '{ "m.homeserver": { "base_url": "https://const.sulian.eu" } }';
+      }
+
+      location /.well-known/matrix/server {
+        return 200 '{ "m.server": "const.sulian.eu:443" }';
+      }
+  labels:
+    app.kubernetes.io/instance: construct
+    app.kubernetes.io/name: matrix
+  name: matrix-construct
+  namespace: matrix
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: const.sulian.eu
+    http:
+      paths:
+      - backend:
+          service:
+            name: matrix-construct
+            port:
+              number: 6167
+        path: /_matrix
+        pathType: Prefix
+  tls:
+  - hosts:
+    - const.sulian.eu
+    secretName: matrix-construct-tls
