@@ -32,9 +32,6 @@ spec:
           value: 0.0.0.0
         - name: ircd_listen_matrix_port
           value: "6167"
-        - name: ircd_client_register_enable
-          value: "true"
-
 
         command: ["/bin/construct"]
         args: ["const.sulian.eu"]
