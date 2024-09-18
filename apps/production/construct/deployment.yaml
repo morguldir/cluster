@@ -6,7 +6,6 @@ metadata:
     app.kubernetes.io/name: matrix
   name: matrix-construct
   namespace: matrix
-  resourceVersion: "263605199"
 spec:
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Retain
@@ -33,6 +32,8 @@ spec:
           value: 0.0.0.0
         - name: ircd_listen_matrix_port
           value: "6167"
+        - name: ircd_client_register_enable
+          value: "true"
 
 
         command: ["/bin/construct"]
