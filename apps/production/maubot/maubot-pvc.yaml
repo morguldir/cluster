@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  name: maubot-claim0
+  namespace: matrix
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: cinder.csi.openstack.org
+    volume.kubernetes.io/storage-provisioner: cinder.csi.openstack.org
+spec:
+  storageClassName: "cinder-csi-btrfs"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1000Mi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  name: maubot-claim1
+  namespace: matrix
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: ru.yandex.s3.csi
+    volume.kubernetes.io/storage-provisioner: ru.yandex.s3.csi
+spec:
+  storageClassName: "csi-s3"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+
