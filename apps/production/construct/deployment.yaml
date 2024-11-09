@@ -33,6 +33,9 @@ spec:
         - name: ircd_listen_matrix_port
           value: "6167"
 
+        tty: true
+        stdin: true
+
         command: 
         - sh
         - -c
