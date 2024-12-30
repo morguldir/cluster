@@ -44,6 +44,7 @@ spec:
             "--listen-address", "0.0.0.0",
             "--listen-port", "19898",
             "--identd", "--identd-port", "11331",
+            "--safe-mode",
             "https://matrix.sulian.eu"
           ]
           name: heisenbridge
