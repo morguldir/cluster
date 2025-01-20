@@ -28,6 +28,8 @@ spec:
       affinity: {}
       containers:
       - env:
+        - name: ircd_db_open_recover
+          value: "point"
         - name: ircd_listen_matrix_host
           value: 0.0.0.0
         - name: ircd_listen_matrix_port
