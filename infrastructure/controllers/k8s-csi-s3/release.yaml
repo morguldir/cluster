@@ -20,3 +20,7 @@ spec:
       create: false # Already created with a sealed secret
       name: k8s-csi-s3-secret
 
+    images:
+      # Test for fixing unmount spam
+      csi: ghcr.io/morguldir/k8s-csi-s3:merge-152 
+
