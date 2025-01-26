@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: draupnir-bus
+  namespace: matrix
+  labels:
+    app.kubernetes.io/name: draupnir-bus
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: draupnir-bus
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: draupnir-bus
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - image: gnuxie/draupnir:v2.0.2
+          args: [
+            "bot",
+            "--draupnir-config", "/data/config/production.yaml"
+          ]
+          name: draupnir
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: draupnir-data
+            - mountPath: /data/config
+              name: draupnir-config
+      restartPolicy: Always
+      volumes:
+        - name: draupnir-config
+          persistentVolumeClaim:
+            claimName: draupnir-bus-config
+        - name: draupnir-data
+          persistentVolumeClaim:
+            claimName: draupnir-bus-data

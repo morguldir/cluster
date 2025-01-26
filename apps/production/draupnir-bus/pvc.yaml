@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: draupnir-bus-config
+  namespace: matrix
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: ru.yandex.s3.csi
+    volume.kubernetes.io/storage-provisioner: ru.yandex.s3.csi
+spec:
+  storageClassName: "csi-s3"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: draupnir-bus-data
+  namespace: matrix
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: cinder.csi.openstack.org
+    volume.kubernetes.io/storage-provisioner: cinder.csi.openstack.org
+spec:
+  storageClassName: cinder-csi-ssd
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
